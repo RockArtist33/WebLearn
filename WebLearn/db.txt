@@ -1,0 +1,90 @@
+﻿Table courses {
+  course_id integer
+  name string
+  description string
+  created_at DateTime
+}
+
+Table roles {
+  role_id integer
+  name string
+  concurrency_stamp string
+}
+
+Table user_roles {
+  user_roles_id integer
+  user_id integer
+  role_id integer
+}
+
+Table user {
+  user_id integer
+  name string
+  email string
+  Timezone string
+  concurrency_stamp string
+}
+
+Table calendar_items {
+  calendar_id integer
+  event_name string
+  event_description string
+  start_date DateTime
+  end_date DateTime
+}
+
+Table assignments {
+  assignment_id integer
+  assignment_name string
+  assignment_description string
+  attachment_id integer
+  user_id integer
+  course_id integer
+}
+
+Table grade_type {
+  grade_type_id integer
+  type_name string
+
+}
+
+Table grades {
+  grade_id integer
+  grade_type_id integer
+  rank string
+}
+
+Table course_assignment_grades {
+  course_assignment_grades_id int
+  user_id integer
+  course_id integer
+  course_only integer
+  assignment_id integer
+  grade_id integer
+  
+  
+}
+
+Table user_courses {
+  user_courses_id int
+  user_id integer
+  course_id integer
+}
+
+Table attachments {
+  attachment_id integer
+  attachment_name string
+  attachment_description string
+  attachment_link string
+}
+
+Ref: user_roles.user_id < user.user_id
+Ref: user_roles.role_id < roles.role_id
+Ref: user_courses.user_id < user.user_id
+Ref: user_courses.course_id < courses.course_id
+Ref: course_assignment_grades.user_id < user.user_id
+Ref: course_assignment_grades.grade_id < grades.grade_id
+Ref: course_assignment_grades.course_id < courses.course_id
+Ref: course_assignment_grades.assignment_id < assignments.assignment_id
+Ref: grades.grade_type_id < grade_type.grade_type_id
+Ref: assignments.attachment_id < attachments.attachment_id
