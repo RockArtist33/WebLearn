@@ -9,5 +9,9 @@ namespace WebLearn.Models
         public string course_description { get; set;}
         [DataType(DataType.DateTime)]
         public DateTime created_at { get; set;}
+        public int UserCoursesId { get; set; }
+        public UserCourses UserCourses { get; set; }
+        public int AssignmentId { get; set; }
+        public Assignments Assignments { get; set; }
     }
 }

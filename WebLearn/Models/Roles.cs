@@ -2,9 +2,10 @@
 {
     public class Roles
     {
-        public int role_id { get; set; }
-        public string role_name { get; set; }
-        public string role_description { get; set; }
-        public string concurrency_stamp { get; set; }
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+        public int UserRolesId { get; set; }
+        public UserRoles UserRoles { get; set; } = null;
+
     }
 }

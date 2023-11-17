@@ -2,8 +2,8 @@
 {
     public class Grades
     {
-        public int grade_Id { get; set; }
-        public int grade_type_Id { get; set; }
-        public string? rank { get; set; }
+        public int GradeId { get; set; }
+        public ICollection<GradeTypes> Grade_Types { get;} = new List<GradeTypes>();
+        public string? Rank { get; set; }
     }
 }
