@@ -1,9 +1,12 @@
-﻿namespace WebLearn.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebLearn.Models
 {
     public class Grades
     {
+        [Key]
         public int GradeId { get; set; }
-        public ICollection<GradeTypes> Grade_Types { get;} = new List<GradeTypes>();
+        public int GradeTypeId { get; set; }
         public string? Rank { get; set; }
     }
 }

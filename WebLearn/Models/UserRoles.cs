@@ -1,9 +1,13 @@
-﻿namespace WebLearn.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebLearn.Models
 {
     public class UserRoles
     {
+        [Key]
         public int UserRolesId { get; set; }
-        public ICollection<Users> Users { get;} = new List<Users>();
-        public ICollection<Roles> Roles { get;} = new List<Roles>();
+        public int UserId { get; set; }
+        public int RoleId { get; set; }
 
+    }
 }

@@ -1,9 +1,12 @@
-﻿namespace WebLearn.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebLearn.Models
 {
     public class UserCalendar
     {
+        [Key]
         public int UserCalendarId { get; set; }
-        public ICollection<CalendarEvents> CalendarEvents { get; } = new List<CalendarEvents>();
-        public ICollection<Users> Users { get; } = new List<Users>();
+        public int EventId { get; set; }
+        public int UserId { get; set; }
     }
 }
