@@ -1,13 +1,16 @@
-﻿namespace WebLearn.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebLearn.Models
 {
     public class Assignments
     {
+        [Key]
         public int AssignmentId { get; set; }
         public string AssignmentName { get; set; }
         public string AssignmentDescription { get; set; }
-        public ICollection<Attachments> Attachments { get; } = new List<Attachments>();
-        public ICollection<Users> Users { get; } = new List<Users>();
-        public ICollection<Courses> Courses { get; } = new List<Courses>();
+        public int AttachmentId { get; set; }
+        public int UserId { get; set; }
+        public int CourseId { get; set; }
 
         
     }
