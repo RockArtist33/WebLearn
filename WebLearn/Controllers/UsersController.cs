@@ -31,7 +31,7 @@ namespace WebLearn.Controllers
             var users = from u in _context.Users select u;
             if (!String.IsNullOrEmpty(SearchString))
             {
-                /*
+                
                 if ((!String.IsNullOrEmpty(SearchString) && ColKey == null))
                 {
                     users = users.Where(s => s.UserName!.Contains(SearchString));
@@ -50,11 +50,10 @@ namespace WebLearn.Controllers
                 }
                 else if (!String.IsNullOrEmpty(SearchString) && ColKey == "Timezone")
                 {
-                    users = users.Where(s => u)
                     users = users.Where(s => s.Timezone!.Contains(SearchString));
                 }
-                */
-                users = users.Where(ColKey + " == " + SearchString);
+                
+                //users = users.Where(ColKey + " == " + SearchString);
 
             }
             return View(await users.ToListAsync());
