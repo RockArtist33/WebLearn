@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WebLearn.Models
+﻿namespace WebLearn.Models
 {
     public class Roles
     {
-        [Key]
         public int RoleId { get; set; }
         public string RoleName { get; set; }
+        public int UserRolesId { get; set; }
+        public UserRoles UserRoles { get; set; } = null;
 
     }
 }

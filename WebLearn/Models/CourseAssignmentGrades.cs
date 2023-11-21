@@ -1,16 +1,12 @@
-﻿using Microsoft.Data.SqlClient.DataClassification;
-using System.ComponentModel.DataAnnotations;
-
-namespace WebLearn.Models
+﻿namespace WebLearn.Models
 {
     public class CourseAssignmentGrades
     {
-        [Key]
         public int CAGId { get; set; }
-        public int UserId { get; set; }
-        public int CourseId { get; set; }
+        public ICollection<Users> Users { get; } = new List<Users>();
+        public ICollection<Courses> Courses { get; } = new List<Courses>();
         public int CourseOnly { get; set; }
-        public int AssignmentId { get; set; }
-        public int GradeId { get; set; }
+        public ICollection<Assignments> Assignments { get; } = new List<Assignments>();
+        public ICollection<Grades> Grades { get; } = new List<Grades>();
     }
 }
