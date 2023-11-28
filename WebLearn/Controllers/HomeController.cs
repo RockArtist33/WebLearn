@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using WebLearn.Data;
 using WebLearn.Models;
 
 namespace WebLearn.Controllers
@@ -7,16 +9,23 @@ namespace WebLearn.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+
+            return _context.Courses != null ?
+                View(await _context.Courses.ToListAsync()) :
+                Problem("Entity set 'ApplicationDbContext.Courses'  is null.");
         }
+
+
 
         public IActionResult Privacy()
         {

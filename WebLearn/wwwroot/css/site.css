@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.HamburgerMenu {
+    height: 32px;
+    margin-left: 10px;
+}
+
+course {
+    flex: 0 1 17.89%;
+    height: 250px;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 20px
+}
