@@ -1,28 +1,56 @@
-﻿@model WebLearn.Models.Courses
+﻿@model dynamic
 
 @{
     ViewData["Title"] = "Home Page";
     Layout = "../Shared/_IndexLayout.cshtml";
 }
-<div class="container">
-    <div style="height:320px;width:100%;">
-        <div style="height:100%;background-color:red;border-radius:15px;">
-            <div style="height:78%">
+@foreach (Courses courses in Model.Courses) {
+    
 
+    <div class="container">
+        <div style="height:320px;width:100%;">
+            <div style="height:100%;background-color:red;border-radius:15px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;">
+                <div style="height:78%"></div>
+                <div style="display:flex;width:100%" class="flex-row">
+                    <courseTitle>@Html.DisplayFor(m => courses.course_name)</courseTitle>
+                    <div class="flex-fill"></div>
+                    <button class="btn btn-primary createButton"><span style="margin:auto;text-align:center;font-size: x-large">Create</span></button>
+                </div>
             </div>
-            <courseTitle style="width:fit-content" style="position:relative;">COURSE NAME</courseTitle>
         </div>
-    </div>
-    <courseDue id="UpdateSection">
-        <cdInner>
-            <h3 style="text-align:center;padding:10px;border-width: 0px;border-bottom:1px; border-style: solid;border-color: rgb(212, 212, 212)">UPCOMING</h3>
-            <span>
-                <p class="flexitem2">Assignment Name</p>
-                <p class="flexitem2">Due Date</p>
-            </span>
-        </cdInner>
-    </courseDue>
-    <courseList id="AssignmentSection">
+        <nav class="navbar navbar-expand-lg navbar-light" style="border: 1px solid rgb(212,212,212)">
+            <a href="/Courses?id=@Html.DisplayFor(m => courses.course_Id)" style="width:auto; text-align:center;margin:0;padding-left:32px;padding-right:32px; border: 0px solid rgb(212,212,212);" class="navbar-brand">Course</a>
+            <a href="/Courses/Classwork?id=@Html.DisplayFor(m => courses.course_Id)" style="width:auto; text-align:center;margin:0;padding-left:32px;padding-right:32px; border: 0px solid rgb(212,212,212); border-left-width: 1px" class="navbar-brand">Classwork</a>
+            <a href="/Courses/People?id=@Html.DisplayFor(m => courses.course_Id)" style="width:auto; text-align:center;margin:0;padding-left:32px;padding-right:32px; border: 0px solid rgb(212,212,212); border-left-width: 1px" class="navbar-brand">People</a>
+            <a href="/Courses?id=@Html.DisplayFor(m => courses.course_Id)" style="width:auto; text-align:center;margin:0;padding-left:32px;padding-right:32px; border: 0px solid rgb(212,212,212); border-left-width: 1px" class="navbar-brand">More</a>
 
-    </courseList>
-</div>
+        </nav>
+        <section class="flex-row" style="display:flex;margin-top: 10px;">
+            <courseDue id="UpdateSection">
+                <cdInner>
+                    <h3 style="text-align:center;padding:10px;border-width: 0px;border-bottom:1px; border-style: solid;border-color: rgb(212, 212, 212)">UPCOMING</h3>
+                    <div>
+                        <p class="flexitem2">Assignment Name</p>
+                        <p class="flexitem2">Due Date</p>
+                    </div>
+                </cdInner>
+            </courseDue>
+            <courseList id="AssignmentSection">
+                @foreach (Assignments assignments in Model.Assignments)
+                {
+                    <a href="/Assignments?id=@Html.DisplayFor(m => assignments.AssignmentId)" style="text-decoration:none;color:black;">
+                        <AssignmentContainer>
+                            <ACInner>
+                                <div class="AssignmentItemName">
+                                    <div style="margin-left:15px;margin-right:15px;width:40px;height:40px;background-color:blue;border-radius:10000px"></div>
+                                    <h5 style="margin:auto;margin-left:0px;">@Html.DisplayFor(m => assignments.AssignmentName)</h5>
+                                </div>
+                            </ACInner>
+                        </AssignmentContainer>
+                    </a>
+                }
+
+            </courseList>
+        </section>
+    </div>
+}
