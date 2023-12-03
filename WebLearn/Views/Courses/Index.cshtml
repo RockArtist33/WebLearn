@@ -1,24 +1,28 @@
-﻿@model IEnumerable<WebLearn.Models.Courses>
+﻿@model WebLearn.Models.Courses
 
 @{
     ViewData["Title"] = "Home Page";
     Layout = "../Shared/_IndexLayout.cshtml";
 }
-<div class="d-flex flex-fill flex-wrap">
-    @foreach (var item in Model) {
-        <course class="course">
-            @if (item.front_image is null)
-            {
-                <div style="width:100%;height:40%;background-color:blue;border-top-left-radius:15px;border-top-right-radius:15px;"></div>
-            }
-            else
-            {
-                <img style="width:100%;height:40%;background-color:blue;border-top-left-radius:15px;border-top-right-radius:15px;" src="@Html.DisplayFor(modelItem => item.front_image)">
-            }
-            <div class="flex-column p-3">
-                <h5>@Html.DisplayFor(modelItem => item.course_name)</h5>
-                <p>@Html.DisplayFor(modelItem => item.course_description)</p>
+<div class="container">
+    <div style="height:320px;width:100%;">
+        <div style="height:100%;background-color:red;border-radius:15px;">
+            <div style="height:78%">
+
             </div>
-        </course>
-}
+            <courseTitle style="width:fit-content" style="position:relative;">COURSE NAME</courseTitle>
+        </div>
+    </div>
+    <courseDue id="UpdateSection">
+        <cdInner>
+            <h3 style="text-align:center;padding:10px;border-width: 0px;border-bottom:1px; border-style: solid;border-color: rgb(212, 212, 212)">UPCOMING</h3>
+            <span>
+                <p class="flexitem2">Assignment Name</p>
+                <p class="flexitem2">Due Date</p>
+            </span>
+        </cdInner>
+    </courseDue>
+    <courseList id="AssignmentSection">
+
+    </courseList>
 </div>

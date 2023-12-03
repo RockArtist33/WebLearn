@@ -20,21 +20,19 @@ namespace WebLearn.Controllers
         }
 
         public async Task<IActionResult> Index(int id)
-        {
-            if (id != null)
+        {   
+            if (id == null || _context.Courses == null)
             {
-                var CourseOpen = await _context.Courses.FindAsync(id);
-                return View(CourseOpen);
+                return NotFound();
             }
 
-            else
+            var CourseOpen = await _context.Courses.FirstOrDefaultAsync(m => m.course_Id == id);
+            if (CourseOpen == null)
             {
-                return _context.Courses != null ?
-                    View(await _context.Courses.ToListAsync()) :
-                    Problem("Entity set 'ApplicationDbContext.Courses'  is null.");
-
+                return NotFound();
             }
 
+            return View(CourseOpen);
         }
     }
 }
