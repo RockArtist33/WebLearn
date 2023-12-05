@@ -5,6 +5,10 @@
 }
 
 @if (Model.Assignments.GetType().ToString() != "IEnumerable<Assignments>")
+{
+    <p>Redirecting</p>
+    <p>If this page doesnt update, Press "Home"</p>
+}
 
 @foreach (Assignments assignments in Model.Assignments)
 {
