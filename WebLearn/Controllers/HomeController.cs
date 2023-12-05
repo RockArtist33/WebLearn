@@ -25,6 +25,8 @@ namespace WebLearn.Controllers
                 Problem("Entity set 'ApplicationDbContext.Courses'  is null.");
         }
 
+        
+
 
 
         public IActionResult Privacy()

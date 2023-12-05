@@ -27,11 +27,7 @@
                 <input asp-for="front_image" class="form-control" />
                 <span asp-validation-for="front_image" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="created_at" class="control-label"></label>
-                <input asp-for="created_at" class="form-control" />
-                <span asp-validation-for="created_at" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -46,3 +42,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    function GetDateTime() {
+        return Date().ToLocaleString()
+    }
+
+</script>

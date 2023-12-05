@@ -1,9 +1,16 @@
-﻿@model dynamic
+﻿@model WebLearn.Controllers.ViewModelCA
 
 @{
     ViewData["Title"] = "Home Page";
     Layout = "../Shared/_IndexLayout.cshtml";
 }
+
+@if (Model.Courses.GetType().ToString() != "IEnumerable<Courses>")
+{
+    <p>Redirecting</p>
+    <p>If this page doesnt update, Press "Home"</p>
+}
+
 @foreach (Courses courses in Model.Courses) {
     
 
@@ -14,7 +21,7 @@
                 <div style="display:flex;width:100%" class="flex-row">
                     <courseTitle>@Html.DisplayFor(m => courses.course_name)</courseTitle>
                     <div class="flex-fill"></div>
-                    <button class="btn btn-primary createButton"><span style="margin:auto;text-align:center;font-size: x-large">Create</span></button>
+                    <a href="Assignments/Create?id=@Html.DisplayFor(m=>courses.course_Id)"><button class="btn btn-primary createButton"><span style="margin:auto;text-align:center;font-size: x-large">Create</span></button></a>
                 </div>
             </div>
         </div>

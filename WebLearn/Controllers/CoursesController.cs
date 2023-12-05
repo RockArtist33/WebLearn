@@ -49,6 +49,25 @@ namespace WebLearn.Controllers
             }
 
             return View(CompositeModel);
+
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("course_Id","course_name","course_description","front_image","created_at")] Courses courses)
+        {
+            if (ModelState.IsValid)
+            {
+                courses.created_at = DateTime.Now;
+                _context.Add(courses);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return Redirect("localhost:7231");
         }
     }
 }

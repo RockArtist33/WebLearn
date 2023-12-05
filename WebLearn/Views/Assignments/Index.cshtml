@@ -1,8 +1,10 @@
-﻿@model dynamic
+﻿@model WebLearn.Controllers.ViewModelAA
 
 @{
     ViewData["Title"] = "Index";
 }
+
+@if (Model.Assignments.GetType().ToString() != "IEnumerable<Assignments>")
 
 @foreach (Assignments assignments in Model.Assignments)
 {

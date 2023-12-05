@@ -11,37 +11,61 @@ using WebLearn.Models;
 
 namespace WebLearn.Controllers
 {
-    public class ViewModelAA
-    {
-        public IEnumerable<Assignments>? Assignments { get; set; }
-        public IEnumerable<Attachments>? Attachments { get; set; }
-
-    }
-    public class AssignmentsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-
-        public AssignmentsController(ApplicationDbContext context)
+        public class IDModelA
         {
-            _context = context;
+            public int id { get; set; }
         }
-
-        // GET: Assignments
-        public async Task<IActionResult> Index(int id)
+        public class ViewModelAA
         {
-            if (id == null || _context.Assignments == null)
+            public IEnumerable<Assignments>? Assignments { get; set; }
+            public IEnumerable<Attachments>? Attachments { get; set; }
+
+        }
+        public class AssignmentsController : Controller
+        {
+            private readonly ApplicationDbContext _context;
+
+            public AssignmentsController(ApplicationDbContext context)
             {
-                return NotFound();
+                _context = context;
             }
 
-            var Assignment = _context.Assignments.Where(m => m.AssignmentId == id);
-            var attachments = _context.Attachments.Where(m => m.AssignmentId == id);
+            // GET: Assignments
+            public async Task<IActionResult> Index(int id)
+            {
+                if (id == null || _context.Assignments == null)
+                {
+                    return NotFound();
+                }
 
-            var CompositeModel = new ViewModelAA();
-            CompositeModel.Assignments = Assignment;
-            CompositeModel.Attachments = attachments;
+                var Assignment = _context.Assignments.Where(m => m.AssignmentId == id);
+                var attachments = _context.Attachments.Where(m => m.AssignmentId == id);
 
-            return View(CompositeModel);
+                var CompositeModel = new ViewModelAA();
+                CompositeModel.Assignments = Assignment;
+                CompositeModel.Attachments = attachments;
+
+                return View(CompositeModel);
+            }
+            public IActionResult Create(int id)
+            {
+                ViewBag.Id = id;
+                return View();
+            }
+
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Create([Bind("AssignmentId", "AssignmentName", "AssignmentDescription", "AttachmentId", "UserId", "CourseId")] Assignments assignments)
+            {
+                if (ModelState.IsValid)
+                {
+                    assignments.AttachmentId = 0;
+                    assignments.UserId = 0;
+                    _context.Add(assignments);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return Redirect("localhost:7231");
+            }
         }
     }
-}
