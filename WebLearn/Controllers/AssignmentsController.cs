@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebLearn.Data;
@@ -10,154 +11,61 @@ using WebLearn.Models;
 
 namespace WebLearn.Controllers
 {
-    public class AssignmentsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-
-        public AssignmentsController(ApplicationDbContext context)
+        public class IDModelA
         {
-            _context = context;
+            public int id { get; set; }
         }
-
-        // GET: Assignments
-        public async Task<IActionResult> Index()
+        public class ViewModelAA
         {
-              return _context.Assignments != null ? 
-                          View(await _context.Assignments.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Assignments'  is null.");
+            public IEnumerable<Assignments>? Assignments { get; set; }
+            public IEnumerable<Attachments>? Attachments { get; set; }
+
         }
-
-        // GET: Assignments/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public class AssignmentsController : Controller
         {
-            if (id == null || _context.Assignments == null)
+            private readonly ApplicationDbContext _context;
+
+            public AssignmentsController(ApplicationDbContext context)
             {
-                return NotFound();
+                _context = context;
             }
 
-            var assignments = await _context.Assignments
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignments == null)
+            // GET: Assignments
+            public async Task<IActionResult> Index(int id)
             {
-                return NotFound();
-            }
-
-            return View(assignments);
-        }
-
-        // GET: Assignments/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Assignments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AssignmentId,AssignmentName,AssignmentDescription,AttachmentId,UserId,CourseId")] Assignments assignments)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(assignments);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(assignments);
-        }
-
-        // GET: Assignments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Assignments == null)
-            {
-                return NotFound();
-            }
-
-            var assignments = await _context.Assignments.FindAsync(id);
-            if (assignments == null)
-            {
-                return NotFound();
-            }
-            return View(assignments);
-        }
-
-        // POST: Assignments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AssignmentId,AssignmentName,AssignmentDescription,AttachmentId,UserId,CourseId")] Assignments assignments)
-        {
-            if (id != assignments.AssignmentId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (id == null || _context.Assignments == null)
                 {
-                    _context.Update(assignments);
+                    return NotFound();
+                }
+
+                var Assignment = _context.Assignments.Where(m => m.AssignmentId == id);
+                var attachments = _context.Attachments.Where(m => m.AssignmentId == id);
+
+                var CompositeModel = new ViewModelAA();
+                CompositeModel.Assignments = Assignment;
+                CompositeModel.Attachments = attachments;
+
+                return View(CompositeModel);
+            }
+            public IActionResult Create(int id)
+            {
+                ViewBag.Id = id;
+                return View();
+            }
+
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Create([Bind("AssignmentId", "AssignmentName", "AssignmentDescription", "AttachmentId", "UserId", "CourseId")] Assignments assignments)
+            {
+                if (ModelState.IsValid)
+                {
+                    assignments.AttachmentId = 0;
+                    assignments.UserId = 0;
+                    _context.Add(assignments);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AssignmentsExists(assignments.AssignmentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return Redirect("localhost:7231");
             }
-            return View(assignments);
-        }
-
-        // GET: Assignments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Assignments == null)
-            {
-                return NotFound();
-            }
-
-            var assignments = await _context.Assignments
-                .FirstOrDefaultAsync(m => m.AssignmentId == id);
-            if (assignments == null)
-            {
-                return NotFound();
-            }
-
-            return View(assignments);
-        }
-
-        // POST: Assignments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Assignments == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Assignments'  is null.");
-            }
-            var assignments = await _context.Assignments.FindAsync(id);
-            if (assignments != null)
-            {
-                _context.Assignments.Remove(assignments);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool AssignmentsExists(int id)
-        {
-          return (_context.Assignments?.Any(e => e.AssignmentId == id)).GetValueOrDefault();
         }
     }
-}
